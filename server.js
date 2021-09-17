@@ -1,14 +1,15 @@
 var express = require('express');
 var config = require('./libs/config');
-
 var app = express();
 var log = require('./libs/log')(module);
+var log = require('./libs/log')(module);
+var ArticleModel = require('./libs/mongoose').ArticleModel;
+
 app.get('/api', function(req, res) {
     res.send('API is running');
 });
 
-var log = require('./libs/log')(module);
-var ArticleModel = require('./libs/mongoose').ArticleModel;
+
 app.get('/api/articles', function(req, res) {
     return ArticleModel.find(function(err, articles) {
         if (!err) {
@@ -21,6 +22,7 @@ app.get('/api/articles', function(req, res) {
         }
     });
 });
+
 app.post('/api/articles', function(req, res) {
     var article = new ArticleModel({
         title: req.body.title,
@@ -48,6 +50,7 @@ app.post('/api/articles', function(req, res) {
         }
     });
 });
+
 app.get('/api/articles/:id', function(req, res) {
     return ArticleModel.findById(req.params.id, function(err, article) {
         if (!article) {
@@ -63,6 +66,7 @@ app.get('/api/articles/:id', function(req, res) {
         }
     });
 });
+
 app.put('/api/articles/:id', function(req, res) {
     return ArticleModel.findById(req.params.id, function(err, article) {
         if (!article) {
@@ -91,6 +95,7 @@ app.put('/api/articles/:id', function(req, res) {
         });
     });
 });
+
 app.delete('/api/articles/:id', function(req, res) {
     return ArticleModel.findById(req.params.id, function(err, article) {
         if (!article) {
